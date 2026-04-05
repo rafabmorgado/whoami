@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 import AboutPanel from "@/components/AboutPanel";
 import AchievementsPanel from "@/components/AchievementsPanel";
 import AttributesPanel from "@/components/AttributesPanel";
@@ -64,43 +68,49 @@ const bossEncounters = [
 const achievements = ["First Production Fix", "Legacy Whisperer", "Query Slayer", "Prompt Tamer"];
 
 export default function Home() {
+  const [bootCompleted, setBootCompleted] = useState(false);
+
   return (
     <div className="hud-shell min-h-screen px-4 py-7 md:px-10 md:py-12">
       <ConsoleEasterEgg />
       <main className="mx-auto max-w-6xl space-y-8 md:space-y-10">
-        <SystemBoot />
+        <SystemBoot onBootComplete={() => setBootCompleted(true)} />
 
-        <Reveal delayMs={60}>
-          <StatusWindow />
-        </Reveal>
+        {bootCompleted ? (
+          <>
+            <Reveal delayMs={60}>
+              <StatusWindow />
+            </Reveal>
 
-        <Reveal delayMs={100}>
-          <AttributesPanel attributes={attributes} />
-        </Reveal>
+            <Reveal delayMs={100}>
+              <AttributesPanel attributes={attributes} />
+            </Reveal>
 
-        <Reveal delayMs={130}>
-          <SkillsPanel skills={skills} />
-        </Reveal>
+            <Reveal delayMs={130}>
+              <SkillsPanel skills={skills} />
+            </Reveal>
 
-        <Reveal delayMs={160}>
-          <QuestPanel mainQuest="Build reliable backend systems." sideQuests={sideQuests} />
-        </Reveal>
+            <Reveal delayMs={160}>
+              <QuestPanel mainQuest="Build reliable backend systems." sideQuests={sideQuests} />
+            </Reveal>
 
-        <Reveal delayMs={190}>
-          <BossPanel encounters={bossEncounters} />
-        </Reveal>
+            <Reveal delayMs={190}>
+              <BossPanel encounters={bossEncounters} />
+            </Reveal>
 
-        <Reveal delayMs={220}>
-          <AchievementsPanel achievements={achievements} />
-        </Reveal>
+            <Reveal delayMs={220}>
+              <AchievementsPanel achievements={achievements} />
+            </Reveal>
 
-        <Reveal delayMs={240}>
-          <AboutPanel />
-        </Reveal>
+            <Reveal delayMs={240}>
+              <AboutPanel />
+            </Reveal>
 
-        <Reveal delayMs={260}>
-          <FooterPanel />
-        </Reveal>
+            <Reveal delayMs={260}>
+              <FooterPanel />
+            </Reveal>
+          </>
+        ) : null}
       </main>
     </div>
   );

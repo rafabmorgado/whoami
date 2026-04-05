@@ -11,13 +11,6 @@ type AttributesPanelProps = {
   attributes: Attribute[];
 };
 
-const METER_SEGMENTS = 18;
-
-function getMeter(value: number) {
-  const filled = Math.round((value / 100) * METER_SEGMENTS);
-  return `${"#".repeat(filled)}${".".repeat(METER_SEGMENTS - filled)}`;
-}
-
 export default function AttributesPanel({ attributes }: AttributesPanelProps) {
   const ref = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
@@ -45,6 +38,10 @@ export default function AttributesPanel({ attributes }: AttributesPanelProps) {
     return () => observer.disconnect();
   }, []);
 
+  const expCurrent = 20555;
+  const expTotal = 99999;
+  const expPercent = (expCurrent / expTotal) * 100;
+
   return (
     <section ref={ref} id="attributes" className="hud-panel">
       <span className="hud-panel-edge hud-panel-edge-left" />
@@ -54,23 +51,34 @@ export default function AttributesPanel({ attributes }: AttributesPanelProps) {
         <span className="hud-panel-track">neural_profile</span>
       </div>
       <div className="hud-divider" />
-      <div className="mt-6 space-y-5">
-        {attributes.map((attribute) => (
-          <div key={attribute.name}>
-            <div className="flex items-center justify-between text-sm md:text-base">
-              <span className="font-medium text-[#dbf8ff]">{attribute.name}</span>
-              <span className="text-[#7cf2ff]">{attribute.value}</span>
-            </div>
-            <div className="attribute-shell mt-2">
-              <div
-                className="attribute-fill"
-                style={{ width: visible ? `${attribute.value}%` : "0%" }}
-                aria-label={`${attribute.name} ${attribute.value}`}
-              />
-            </div>
-            <p className="mt-1 text-xs text-[#8ac5da]">[{getMeter(attribute.value)}]</p>
+      <div className="attribute-board mt-6">
+        <div className="attribute-exp-row">
+          <p className="attribute-level">Level: 98</p>
+          <p className="attribute-exp-text">EXP: 20555 / 99999</p>
+        </div>
+
+        <div className="attribute-exp-shell mt-2">
+          <div className="attribute-exp-fill" style={{ width: visible ? `${expPercent}%` : "0%" }} />
+        </div>
+
+        <div className="status-core-row mt-4">
+          <div className="status-core-stat">
+            <span className="status-core-icon">+</span>
+            <span>HP</span>
           </div>
-        ))}
+          <div className="status-core-stat">
+            <span className="status-core-icon">*</span>
+            <span>MP</span>
+          </div>
+        </div>
+
+        <div className="status-attributes-grid">
+          {attributes.map((attribute) => (
+            <p key={attribute.name}>
+              {attribute.name} : {attribute.value}
+            </p>
+          ))}
+        </div>
       </div>
     </section>
   );

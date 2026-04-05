@@ -87,6 +87,23 @@ body.modal-open {
   overflow: hidden;
 }
 
+body.system-error-active .hud-shell {
+  animation: screenShake 280ms linear infinite;
+}
+
+body.system-error-active::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 85;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 42, 78, 0.18), transparent 62%),
+    linear-gradient(rgba(255, 28, 66, 0.08), rgba(255, 28, 66, 0.08));
+  mix-blend-mode: screen;
+  animation: errorFlash 320ms steps(2, end) infinite;
+}
+
 .system-modal-overlay {
   position: fixed;
   inset: 0;
@@ -353,6 +370,51 @@ body.modal-open {
   background: linear-gradient(160deg, rgba(7, 16, 29, 0.75), rgba(10, 21, 37, 0.75));
 }
 
+.attribute-board {
+  border: 1px solid rgba(124, 242, 255, 0.58);
+  padding: 0.65rem;
+  background: linear-gradient(160deg, rgba(6, 13, 24, 0.82), rgba(8, 18, 32, 0.82));
+  box-shadow:
+    inset 0 0 0 1px rgba(124, 242, 255, 0.14),
+    0 0 14px rgba(124, 242, 255, 0.12);
+}
+
+.attribute-exp-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.attribute-level {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #d8f4ff;
+  letter-spacing: 0.08em;
+}
+
+.attribute-exp-text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #8beeff;
+  letter-spacing: 0.08em;
+}
+
+.attribute-exp-shell {
+  height: 10px;
+  border: 1px solid rgba(124, 242, 255, 0.55);
+  background: rgba(6, 11, 20, 0.92);
+  box-shadow: inset 0 0 0 1px rgba(124, 242, 255, 0.12);
+}
+
+.attribute-exp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #59d3ff, #7cf2ff 60%, #b8f6ff);
+  box-shadow: 0 0 10px rgba(124, 242, 255, 0.34);
+  transition: width 900ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
 .status-core-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -424,6 +486,140 @@ body.modal-open {
     inset 0 0 0 1px rgba(124, 242, 255, 0.1),
     0 0 24px rgba(124, 242, 255, 0.12);
   padding: 0.45rem;
+}
+
+.rank-badge {
+  width: fit-content;
+  margin: 0 auto 0.8rem;
+  border: 1px solid rgba(124, 242, 255, 0.82);
+  background: linear-gradient(180deg, rgba(9, 29, 49, 0.94), rgba(8, 16, 30, 0.94));
+  color: #e8fcff;
+  padding: 0.38rem 0.9rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  box-shadow:
+    0 0 0 1px rgba(10, 32, 52, 0.85),
+    0 0 16px rgba(124, 242, 255, 0.3);
+}
+
+.rank-badge::before {
+  content: "◆";
+  margin-right: 0.4rem;
+  color: #8beeff;
+}
+
+.system-finalizing-label {
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: #8fdcf2;
+}
+
+.rank-analysis-wrap {
+  position: relative;
+  min-height: 1.6rem;
+}
+
+.rank-analysis-line {
+  margin: 0;
+  color: #9edff1;
+  letter-spacing: 0.05em;
+}
+
+.rank-dots {
+  display: inline-flex;
+  min-width: 1.8rem;
+}
+
+.rank-dots span {
+  opacity: 0;
+  animation: dotStep 1.1s ease-in-out infinite;
+}
+
+.rank-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.rank-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.rank-dots span:nth-child(4) {
+  animation-delay: 0.6s;
+}
+
+.rank-dots-static span {
+  opacity: 1;
+  animation: none;
+}
+
+.system-error-center {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgba(255, 36, 74, 0.16), rgba(8, 12, 20, 0.78) 65%);
+  color: #ff284d;
+  font-family: var(--font-orbitron), var(--font-jetbrains), monospace;
+  font-size: clamp(2rem, 7vw, 4.4rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-shadow:
+    0 0 16px rgba(255, 40, 77, 0.95),
+    0 0 34px rgba(255, 40, 77, 0.7);
+  animation: errorBlink 1.1s steps(2, end) 3;
+}
+
+.system-error-inline {
+  display: inline-block;
+  margin-left: 0.35rem;
+  color: #ff315a;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-shadow:
+    0 0 12px rgba(255, 49, 90, 0.92),
+    0 0 26px rgba(255, 49, 90, 0.62);
+  background: rgba(8, 12, 20, 0.5);
+  padding-inline: 0.12rem;
+  animation: errorBlink 1.05s steps(2, end) 3;
+}
+
+.system-error-blink {
+  color: #ff7f98;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 12px rgba(255, 76, 110, 0.55);
+  animation: errorBlink 0.38s steps(2, end) 3;
+}
+
+.system-rank-detected {
+  color: #8beeff;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 12px rgba(124, 242, 255, 0.45);
+  animation: rankBlink 0.8s steps(2, end) infinite;
+}
+
+.system-finalizing-bar {
+  height: 9px;
+  border: 1px solid rgba(124, 242, 255, 0.6);
+  background: rgba(7, 12, 22, 0.92);
+  box-shadow: inset 0 0 0 1px rgba(124, 242, 255, 0.1);
+  overflow: hidden;
+}
+
+.system-finalizing-bar-fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(89, 211, 255, 0.8), rgba(124, 242, 255, 0.95));
+  transform-origin: left;
+  animation: finalizeFill 2.2s linear forwards;
 }
 
 .avatar-frame::before {
@@ -629,6 +825,95 @@ body.modal-open {
   97%,
   99% {
     opacity: 0.76;
+  }
+}
+
+@keyframes finalizeFill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes errorBlink {
+  0%,
+  40%,
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    color: #ff315a;
+    text-shadow:
+      0 0 12px rgba(255, 49, 90, 0.92),
+      0 0 26px rgba(255, 49, 90, 0.62);
+  }
+  50%,
+  92% {
+    opacity: 0;
+    transform: translateX(0);
+    color: rgba(255, 49, 90, 0.05);
+    text-shadow: none;
+  }
+  12% {
+    transform: translateX(-1px);
+  }
+  18% {
+    transform: translateX(1px);
+  }
+  62% {
+    transform: translateX(-1px);
+  }
+  68% {
+    transform: translateX(1px);
+  }
+}
+
+@keyframes screenShake {
+  0% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-1px, 1px);
+  }
+  40% {
+    transform: translate(1px, -1px);
+  }
+  60% {
+    transform: translate(-1px, 0);
+  }
+  80% {
+    transform: translate(1px, 1px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes errorFlash {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.42;
+  }
+}
+
+@keyframes dotStep {
+  0%,
+  20% {
+    opacity: 0;
+  }
+  50%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes rankBlink {
+  50% {
+    opacity: 0.35;
   }
 }
 
